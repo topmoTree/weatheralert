@@ -25,10 +25,10 @@ fun AlertItem(alert: AlertEntity) {
         ) {
             Text(
                 text = alert.title,
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.h6
             )
             Text(
-                text = alert.expiresLocal,
+                text = "Expires: ${printDate(alert.expiresLocal)}",
                 style = MaterialTheme.typography.subtitle1
             )
             Text(
@@ -39,6 +39,9 @@ fun AlertItem(alert: AlertEntity) {
         }
     }
 }
+
+private fun printDate(alertLocalTime: String): String =
+    alertLocalTime.replace('T', ' ')
 
 @Preview
 @Composable

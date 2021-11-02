@@ -21,6 +21,13 @@ class HomeViewModel @Inject constructor(
     private val weatherApiRepository: WeatherApiRepository,
     private val alertDbRepository: AlertDbRepository
 ) : ViewModel() {
+    private val observedCities = MutableLiveData<List<ObservedCityEntity>>(listOf())
+    val citiesWithAlertsLd = Transformations.switchMap(observedCities) {
+        cityRepository.citiesWithAlertsByIdsLd(it)
+    }
+    private val _deleteCityByIdLd = MutableLiveData<Int?>()
+    val deleteCityById: LiveData<Int?> = _deleteCityByIdLd
+
     init {
         viewModelScope.launch {
             observedCityRepository.allObservedCitiesFlow().collect { observedCityEntities ->
@@ -28,21 +35,10 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
-            updateAlerts()
-        }
+        updateAlerts()
     }
 
-    private val observedCities = MutableLiveData<List<ObservedCityEntity>>(listOf())
-
-    val citiesWithAlertsLd = Transformations.switchMap(observedCities) {
-        cityRepository.citiesWithAlertsByIdsLd(it)
-    }
-
-    private val _deleteCityByIdLd = MutableLiveData<Int?>()
-    val deleteCityById: LiveData<Int?> = _deleteCityByIdLd
-
-    fun updateAlerts() {
+    private fun updateAlerts() {
         viewModelScope.launch {
             val observedCities = observedCityRepository.allObservedCities()
 
@@ -51,20 +47,19 @@ class HomeViewModel @Inject constructor(
                 val alertResponse = fetchAlertsFromApi(city)
 
                 alertResponse?.let {
-                    saveAlertResponseToDb(observedCity, it)
+                    saveAlertToDb(observedCity, it)
                 }
             }
         }
     }
 
-    //todo change name of method
     private suspend fun fetchAlertsFromApi(city: CityEntity): AlertResponse? =
         weatherApiRepository.getAlertsByCityAndCountryCode(
             city = city.cityName,
             countryCode = city.countryCode
         )
 
-    private suspend fun saveAlertResponseToDb(
+    private suspend fun saveAlertToDb(
         observedCity: ObservedCityEntity,
         alertResponse: AlertResponse
     ) {
