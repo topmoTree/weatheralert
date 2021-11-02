@@ -6,7 +6,7 @@ data class CityItemModel(val id: Int, val name: String, val country: String)
 
 fun CityEntity.mapToCityItem() =
     CityItemModel(
-        id = this.city_id,
-        name = this.city_name,
-        country = this.country_full
+        id = this.cityId,
+        name = this.cityName,
+        country = this.countryFull
     )

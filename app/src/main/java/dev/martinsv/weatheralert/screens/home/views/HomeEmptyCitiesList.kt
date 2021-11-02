@@ -35,7 +35,7 @@ fun HomeEmptyCitiesList(addCityClick: () -> Unit) {
 
                 Text(
                     modifier = Modifier.padding(top = 16.dp, bottom = 24.dp),
-                    text = "You don't have any observable cities. Please add.",
+                    text = "You don't have any observable cities.",
                     textAlign = TextAlign.Center
                 )
 

@@ -1,6 +1,6 @@
 package dev.martinsv.weatheralert.api.api
 
-import AlertResponse
+import dev.martinsv.weatheralert.api.api.data.AlertResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -10,5 +10,10 @@ interface WeatherApi {
     suspend fun getAlertsByCityAndCountryCode(
         @Query("city") city: String,
         @Query("country") countryCode: String,
-    ) : AlertResponse
+    ) : AlertResponse?
+
+    @GET("/v2.0/alerts")
+    suspend fun getAlertsByCityId(
+        @Query("city_id") cityId: Int
+    ) : AlertResponse?
 }

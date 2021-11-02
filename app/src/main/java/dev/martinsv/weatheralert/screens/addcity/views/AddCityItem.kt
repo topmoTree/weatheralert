@@ -17,12 +17,12 @@ import dev.martinsv.weatheralert.screens.CityItemModel
 @Composable
 fun AddCityItem(
     cityModel: CityItemModel,
-    onCityClick: (CityItemModel) -> Unit
+    onCityClick: (Int) -> Unit
 ) {
     Card(
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(vertical = 8.dp),
         elevation = 8.dp,
-        onClick = { onCityClick(cityModel) }
+        onClick = { onCityClick(cityModel.id) }
     ) {
         Row(
             modifier = Modifier

@@ -6,11 +6,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.martinsv.weatheralert.api.ApiData
 import dev.martinsv.weatheralert.api.api.WeatherApi
+import dev.martinsv.weatheralert.api.repository.WeatherApiRepository
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 
 @Module
@@ -53,4 +55,9 @@ object ApiModule {
     @Provides
     fun provideWeatherApi(retrofit: Retrofit): WeatherApi =
         retrofit.create(WeatherApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideWeatherApiRepository(weatherApi: WeatherApi) =
+        WeatherApiRepository(weatherApi = weatherApi)
 }

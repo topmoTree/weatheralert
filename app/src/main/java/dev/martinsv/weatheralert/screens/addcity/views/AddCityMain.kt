@@ -25,25 +25,13 @@ fun AddCityMain(
     onCityChange: (String) -> Unit,
     searchCityClick: () -> Unit,
     items: List<CityItemModel>,
-    onCityClick: (CityItemModel) -> Unit
+    onCityClick: (Int) -> Unit
 ) {
     Surface(modifier = Modifier.fillMaxSize()) {
-        Column() {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier.padding(16.dp),
-                    text = "Add city",
-                    style = MaterialTheme.typography.h5
-                )
-            }
-
+        Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 8.dp)
                     .height(IntrinsicSize.Max)
             ) {
                 CityInputInputText(
@@ -52,7 +40,8 @@ fun AddCityMain(
                     modifier = Modifier
                         .fillMaxWidth()
                         .weight(4F)
-                        .fillMaxHeight()
+                        .fillMaxHeight(),
+                    searchCityClick = searchCityClick
                 )
 
                 Button(
@@ -81,7 +70,8 @@ fun AddCityMain(
 fun CityInputInputText(
     text: String,
     onTextChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    searchCityClick: () -> Unit = {}
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     OutlinedTextField(
@@ -91,6 +81,7 @@ fun CityInputInputText(
         label = { Text(text = "City") },
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(onDone = {
+            searchCityClick()
             keyboardController?.hide()
         }),
         modifier = modifier

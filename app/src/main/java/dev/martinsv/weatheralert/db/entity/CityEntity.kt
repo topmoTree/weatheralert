@@ -9,16 +9,19 @@ data class CityEntity(
 
     @PrimaryKey
     @ColumnInfo(name = "city_id")
-    val city_id: Int,
+    val cityId: Int,
 
     @ColumnInfo(name = "city_name")
-    val city_name: String,
+    val cityName: String,
+
+    @ColumnInfo(name ="state_code")
+    val stateCode: String,
 
     @ColumnInfo(name = "country_code")
-    val country_code: String,
+    val countryCode: String,
 
     @ColumnInfo(name = "country_full")
-    val country_full: String,
+    val countryFull: String,
 
     @ColumnInfo(name = "lat")
     val lat: String,
